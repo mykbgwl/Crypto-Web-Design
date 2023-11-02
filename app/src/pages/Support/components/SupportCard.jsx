@@ -14,7 +14,6 @@ import {
   Textarea,
 } from "@chakra-ui/react";
 import React from "react";
-import { IoMdMail } from "react-icons/io";
 const SupportCard = ({ leftComponent, icon, title, text }) => {
   return (
     <Flex
