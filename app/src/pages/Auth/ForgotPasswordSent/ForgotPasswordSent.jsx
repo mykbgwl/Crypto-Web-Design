@@ -1,3 +1,5 @@
+import React from "react";
+import Card from "../../../components/Card";
 import {
   Box,
   Button,
@@ -7,11 +9,13 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import Card from "../../../components/Card";
 import { BsPatchCheckFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
-
+import { useParams } from "react-router-dom";
 const ForgotPasswordSent = () => {
+  const params = useParams();
+
+  const { email } = useParams();
+
   return (
     <Container>
       <Center minH="100vh">
@@ -24,15 +28,16 @@ const ForgotPasswordSent = () => {
         >
           <VStack spacing={6}>
             <Icon as={BsPatchCheckFill} boxSize="48px" color="green" />
-            <Text textStyle="h4" color="p.black" fontWeight="medium">
+            <Text textStyle="h4" fontWeight="medium" color="p.black">
               Successfully Sent
             </Text>
-            <Text textStyle="p2" color="black.60" textAlign="center">
+            <Text textAlign="center" textStyle="p2" color="black.60">
               We have sent instructions on how to reset your password to{" "}
               <Box as="b" color="p.black">
-                jenny.wilson@gmail.com
-              </Box>
-              . Please follow the instructions from the email.
+                {email}
+              </Box>{" "}
+              Please follow the instructions from the email. We have sent you an
+              email verification to{" "}
             </Text>
           </VStack>
         </Card>

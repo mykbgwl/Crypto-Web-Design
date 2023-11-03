@@ -12,57 +12,57 @@ import ForgotPasswordSent from "./pages/Auth/ForgotPasswordSent/ForgotPasswordSe
 import ResetPasswordSuccess from "./pages/Auth/ResetPasswordSuccess/ResetPasswordSuccess";
 import ResetPassword from "./pages/Auth/ResetPassword/ResetPassword";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from 'react-query/devtools'
-
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <Dashboard />,
-  },
-  {
-    path: "/transactions",
-    element: <TransactionPage />,
-  },
-  {
-    path: "/support",
-    element: <Support />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/signin",
-    element: <Signin />,
-  },
-  {
-    path: "/register-email-verify",
-    element: <RegisterEmailVerify />,
-  },
-  {
-    path: "/register-success",
-    element: <RegisterSuccess />,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPassword />,
-  },
-  {
-    path: "/reset-password",
-    element: <ResetPassword />,
-  },
-  {
-    path: "/forgot-password-sent",
-    element: <ForgotPasswordSent />,
-  },
-  {
-    path: "/reset-password-success",
-    element: <ResetPasswordSuccess />,
-  },
-]);
+import { ReactQueryDevtools } from "react-query/devtools";
 
 function App() {
-  const queryClient=new QueryClient();
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <Dashboard />,
+    },
+    {
+      path: "/transactions",
+      element: <TransactionPage />,
+    },
+    {
+      path: "/support",
+      element: <Support />,
+    },
+    {
+      path: "/signup",
+      element: <Signup />,
+    },
+    {
+      path: "/signin",
+      element: <Signin />,
+    },
+    {
+      path: "/register-email-verify/:email",
+      element: <RegisterEmailVerify />,
+    },
+    {
+      path: "/email-verify/:token",
+      element: <RegisterSuccess />,
+    },
+    {
+      path: "/forgot-password",
+      element: <ForgotPassword />,
+    },
+    {
+      path: "/forgot-success/:email",
+      element: <ForgotPasswordSent />,
+    },
+    {
+      path: "/forgot-password-verify/:token",
+      element: <ResetPassword />,
+    },
+    {
+      path: "/reset-success",
+      element: <ResetPasswordSuccess />,
+    },
+  ]);
+  const queryClient = new QueryClient();
+
   return (
     <QueryClientProvider client={queryClient}>
       <RouterProvider router={router} />

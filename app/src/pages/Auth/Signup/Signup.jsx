@@ -1,21 +1,24 @@
 import {
-  Box,
-  Button,
   Center,
-  Checkbox,
   Container,
-  Flex,
   FormControl,
-  FormErrorMessage,
   FormLabel,
-  Input,
   Stack,
   Text,
+  Input,
+  Flex,
+  Checkbox,
+  Button,
+  FormErrorMessage,
+  useToast,
 } from "@chakra-ui/react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { object, string, ref } from "yup";
 import Card from "../../../components/Card";
+import { useMutation } from "react-query";
+import { signupUser } from "../../../api/query/userQuery";
+import { useState } from "react";
 
 const signupValidationSchema = object({
   name: string().required("Name is required"),
@@ -30,6 +33,27 @@ const signupValidationSchema = object({
 });
 
 const Signup = () => {
+  const [email, setEmail] = useState("");
+  const navigate = useNavigate();
+
+  const toast = useToast();
+  const { mutate, isLoading } = useMutation({
+    mutationKey: ["signup"],
+    mutationFn: signupUser,
+    onSuccess: (data) => {
+      if (email) {
+        navigate(`/register-email-verify/${email}`);
+      }
+    },
+    onError: (error) => {
+      toast({
+        title: "SignUp Error",
+        description: error.message,
+        status: "error",
+      });
+    },
+  });
+
   return (
     <Container>
       <Center minH="100vh">
@@ -37,7 +61,7 @@ const Signup = () => {
           <Text fontWeight="medium" textStyle="h1">
             Welcome to Crypto App
           </Text>
-          <Text textStyle="p2" color="black.60" mt="4" mb="10">
+          <Text textStyle="p2" color="black.60" mt="4">
             Create a free account by filling data below.
           </Text>
           <Formik
@@ -46,14 +70,23 @@ const Signup = () => {
               surname: "",
               email: "",
               password: "",
-              repeatpassword: "",
+              repeatPassword: "",
             }}
-            onSubmit={(values) => {}}
+            onSubmit={(values) => {
+              setEmail(values.email);
+
+              mutate({
+                firstName: values.name,
+                lastName: values.surname,
+                email: values.email,
+                password: values.password,
+              });
+            }}
             validationSchema={signupValidationSchema}
           >
             {() => (
               <Form>
-                <Stack spacing={6}>
+                <Stack mt="10" spacing={6}>
                   <Flex gap="4">
                     <Field name="name">
                       {({ field, meta }) => (
@@ -135,7 +168,9 @@ const Signup = () => {
                       </Text>
                     </Text>
                   </Checkbox>
-                  <Button type="submit">Create Account</Button>
+                  <Button isLoading={isLoading} type="submit">
+                    Create Account
+                  </Button>
                   <Text textStyle="p3" color="black.60" textAlign="center">
                     Already have an account?{" "}
                     <Link to="/signin">
