@@ -20,6 +20,7 @@ import { object, string, ref } from "yup";
 import Card from "../../../components/Card";
 import { useMutation } from "react-query";
 import { signinUser } from "../../../api/query/userQuery";
+import useAuth from "../../../hooks/useAuth";
 
 const signinValidationSchema = object({
   email: string().email("Email is invalid").required("Email is required"),
@@ -30,11 +31,16 @@ const signinValidationSchema = object({
 
 const Signin = () => {
   const toast = useToast();
-
+  const {login} = useAuth();
   const { mutate, isLoading } = useMutation({
     mutationKey: ["signin"],
     mutationFn: signinUser,
-    onSuccess: (data) => {},
+    onSuccess: (data) => {
+      const {token} = data;
+      if(token){
+        login(token);
+      }
+    },
     onError: (error) => {
       toast({
         title: "Sign-in Error",

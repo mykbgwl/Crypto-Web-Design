@@ -12,7 +12,10 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { FaBars, FaUserTie } from "react-icons/fa";
+import useAuth from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 const TopNav = ({ title, onOpen }) => {
+  const { logout } = useAuth();
   return (
     <Box px="4" bg="white">
       <HStack maxW="70rem" h="16" justify="space-between" mx="auto">
@@ -33,8 +36,11 @@ const TopNav = ({ title, onOpen }) => {
             <Icon as={FaUserTie} fontSize="24px" />
           </MenuButton>
           <MenuList>
-            <MenuItem>Logout</MenuItem>
-            <MenuItem>Support</MenuItem>
+            <MenuItem onClick={logout}>Logout</MenuItem>
+            <MenuItem>
+              <Link to="/support" />
+              Support
+            </MenuItem>
           </MenuList>
         </Menu>
       </HStack>
